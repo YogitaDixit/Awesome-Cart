@@ -1,0 +1,404 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+Order Details
+{% endblock %}
+
+{% block css %}
+<style>
+    .progress-container {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between;
+        align-items: flex-start;
+        position: relative;
+        width: 100%;
+        margin: 30px 0;
+    }
+
+    .progress-container::before {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: 10%;
+        right: 10%;
+        height: 4px;
+        background: #ddd;
+        z-index: 0;
+    }
+
+    .progress-step {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        width: 20%;
+        flex: 0 0 20%;
+    }
+
+    .progress-step .circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #ddd;
+        color: #777;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        font-weight: bold;
+    }
+
+    .progress-step p {
+        margin: 0;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .progress-step.active .circle {
+        background: #28a745;
+        color: white;
+    }
+
+    .progress-step.active p {
+        color: #28a745;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    <h2>Order #{{ order.order_id }}</h2>
+
+    <hr>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+    <div class="card border-success">
+
+        <div class="card-body text-center">
+
+            <h6>Current Status</h6>
+
+            <span class="badge badge-success p-2">
+
+                {{ current_status }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <h6>Order Date</h6>
+
+                    <strong>
+
+                        {{ order.order_date|date:"d M Y" }}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <h6>Expected Delivery</h6>
+
+                    <strong>
+
+                        {{ expected_delivery|date:"d M Y" }}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <h5 class="mb-4">Order Progress</h5>
+
+        <div class="progress-container"
+             style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; width: 100%; position: relative;">
+
+            <!-- Placed -->
+            <div class="progress-step {% if 'The order has been placed' in status_list %}active{% endif %}"
+                 style="text-align: center; width: 20%; flex: 0 0 20%;">
+
+                <div class="circle">✓</div>
+                <p>Placed</p>
+
+            </div>
+
+
+            <!-- Packed -->
+            <div class="progress-step {% if 'Your order has been packed' in status_list %}active{% endif %}"
+                 style="text-align: center; width: 20%; flex: 0 0 20%;">
+
+                <div class="circle">✓</div>
+                <p>Packed</p>
+
+            </div>
+
+
+            <!-- Shipped -->
+            <div class="progress-step {% if 'Your order has been shipped' in status_list %}active{% endif %}"
+                 style="text-align: center; width: 20%; flex: 0 0 20%;">
+
+                <div class="circle">✓</div>
+                <p>Shipped</p>
+
+            </div>
+
+
+            <!-- Out for Delivery -->
+            <div class="progress-step {% if 'Your order is out for delivery' in status_list %}active{% endif %}"
+                 style="text-align: center; width: 20%; flex: 0 0 20%;">
+
+                <div class="circle">✓</div>
+                <p>Out for Delivery</p>
+
+            </div>
+
+
+            <!-- Delivered -->
+            <div class="progress-step {% if 'Your order has been delivered' in status_list %}active{% endif %}"
+                 style="text-align: center; width: 20%; flex: 0 0 20%;">
+
+                <div class="circle">✓</div>
+                <p>Delivered</p>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+    <!-- ================= DELIVERY ADDRESS ================= -->
+
+    <div class="card mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+
+                Delivery Address
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <strong>{{ order.name }}</strong>
+
+            <br>
+
+            {{ order.address }}
+
+            <br>
+
+            {{ order.city }}
+
+            <br>
+
+            {{ order.state }}
+
+            -
+
+            {{ order.zip_code }}
+
+            <br>
+
+            {{ order.phone }}
+
+        </div>
+
+    </div>
+
+    <!-- ================= ORDERED ITEMS ================= -->
+
+    <!-- ================= ORDERED ITEMS ================= -->
+
+<div class="card mb-4">
+
+    <div class="card-header bg-info text-white">
+
+        <h5 class="mb-0">
+
+            Ordered Items
+
+        </h5>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <table class="table table-bordered table-hover mb-0">
+
+            <thead class="bg-dark text-white">
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th class="text-center">Quantity</th>
+
+                    <th class="text-center">Price</th>
+
+                    <th class="text-center">Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for product, details in items.items %}
+
+                <tr>
+
+                    <td>
+
+                        {{ product }}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        {{ details.quantity }}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        ₹{{ details.price }}
+
+                    </td>
+
+                    <td class="text-center">
+                       ₹{{ details.line_total }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+            <tfoot>
+
+                <tr class="table-success">
+
+                    <th colspan="3" class="text-right">
+
+                        Grand Total
+
+                    </th>
+
+                    <th class="text-center">
+
+                        ₹{{ grand_total }}
+
+                    </th>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </div>
+
+</div>
+    <!-- ================= ORDER UPDATES ================= -->
+
+    <div class="card mb-4">
+
+        <div class="card-header bg-warning">
+
+            <h5 class="mb-0">
+
+                Order Updates
+
+            </h5>
+
+        </div>
+
+        
+
+            {% if updates %}
+
+            <ul class="list-group">
+
+                {% for update in updates %}
+
+                <li class="list-group-item">
+
+                    <strong>{{ update.update_desc }}</strong>
+
+                    <br>
+
+                    <small>
+
+                        {{ update.timestamp }}
+
+                    </small>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+
+                No updates available.
+
+            </div>
+
+            {% endif %}
+
+        
+
+    </div>
+
+    <a
+        href="{% url 'MyOrders' %}"
+        class="btn btn-secondary">
+
+        Back to My Orders
+
+    </a>
+
+</div>
+
+{% endblock %}

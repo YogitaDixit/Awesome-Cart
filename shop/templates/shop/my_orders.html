@@ -1,0 +1,66 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+My Orders
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">My Orders</h2>
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <h5>
+                    Order #{{ order.order_id }}
+                </h5>
+
+                <p>
+                    <strong>Placed On:</strong>
+                    {{ order.order_date }}
+                </p>
+
+                <p>
+                    <strong>Delivered To:</strong>
+                    {{ order.name }}
+                </p>
+
+                <p>
+                    {{ order.city }},
+                    {{ order.state }}
+                </p>
+
+                <a
+                    href="{% url 'OrderDetails' order.order_id %}"
+                    class="btn btn-primary">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="alert alert-info">
+
+            You haven't placed any orders yet.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

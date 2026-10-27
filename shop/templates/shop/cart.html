@@ -1,0 +1,93 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+Cart
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    <h2>My Cart</h2>
+
+    {% if cart_items %}
+
+        <table class="table">
+
+            <thead>
+                <tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Total</th>
+    <th>Action</th>
+</tr>
+            </thead>
+
+            <tbody>
+
+{% for item in cart_items %}
+
+<tr>
+
+    <td>
+        {{ item.product.product_name }}
+    </td>
+
+    <td>
+        ₹{{ item.product.price }}
+    </td>
+
+    <td>
+
+        <a href="/shop/decrease-cart/{{ item.id }}/"
+           class="btn btn-sm btn-danger">
+            -
+        </a>
+
+        <strong class="mx-2">
+            {{ item.quantity }}
+        </strong>
+
+        <a href="/shop/increase-cart/{{ item.id }}/"
+           class="btn btn-sm btn-success">
+            +
+        </a>
+
+    </td>
+
+    <td>
+        ₹{{ item.line_total }}
+    </td>
+
+    <td>
+
+        <a href="/shop/remove-cart/{{ item.id }}/"
+           class="btn btn-sm btn-warning">
+            Remove
+        </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+        </table>
+
+        <h4>Total: ₹{{ total_price }}</h4>
+
+        <a href="/shop/checkout/" class="btn btn-success">
+            Proceed To Checkout
+        </a>
+
+    {% else %}
+
+        <h4>Your cart is empty.</h4>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

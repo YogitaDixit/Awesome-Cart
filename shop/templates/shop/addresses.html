@@ -1,0 +1,139 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+My Addresses
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>My Saved Addresses</h2>
+
+        <a href="/shop/add-address/" class="btn btn-primary">
+
+            + Add New Address
+
+        </a>
+
+    </div>
+
+    {% if addresses %}
+
+        {% for address in addresses %}
+
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <h5>
+
+                            {{ address.address_title }}
+
+                            {% if address.is_default %}
+
+                                <span class="badge badge-success">
+
+                                    Default
+
+                                </span>
+
+                            {% endif %}
+
+                        </h5>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <strong>{{ address.full_name }}</strong>
+
+                <br>
+
+                {{ address.phone }}
+
+                <br><br>
+
+                {{ address.address_line1 }}
+
+                {% if address.address_line2 %}
+
+                    <br>
+
+                    {{ address.address_line2 }}
+
+                {% endif %}
+
+                <br>
+
+                {{ address.city }},
+
+                {{ address.state }}
+
+                -
+
+                {{ address.zip_code }}
+
+                <hr>
+
+                <a
+                    href="/shop/edit-address/{{ address.id }}/"
+                    class="btn btn-warning btn-sm">
+
+                    Edit
+
+                </a>
+
+                <a
+                    href="/shop/delete-address/{{ address.id }}/"
+                    class="btn btn-danger btn-sm">
+
+                    Delete
+
+                </a>
+
+                {% if not address.is_default %}
+
+                <a
+                    href="/shop/set-default-address/{{ address.id }}/"
+                    class="btn btn-success btn-sm">
+
+                    Make Default
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="alert alert-info">
+
+            <h5>No Address Saved</h5>
+
+            <p>
+
+                Click the button above to add your first delivery address.
+
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

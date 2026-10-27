@@ -1,0 +1,103 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+Order Placed Successfully
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+    <div class="card">
+
+        <div class="card-body text-center">
+
+            <h2 class="text-success">
+
+                ✔ Order Placed Successfully
+
+            </h2>
+
+            <hr>
+
+            <h4>
+
+                Thank you for shopping with us!
+
+            </h4>
+
+            <br>
+
+            <h5>
+
+                Order ID
+
+            </h5>
+
+            <h3>
+
+                {{ order.order_id }}
+
+            </h3>
+
+            <hr>
+
+            <h5>
+
+                Delivery Address
+
+            </h5>
+
+            <p>
+
+                <strong>
+
+                    {{ order.name }}
+
+                </strong>
+
+                <br>
+
+                {{ order.address }}
+
+                <br>
+
+                {{ order.city }}
+
+                <br>
+
+                {{ order.state }}
+
+                -
+
+                {{ order.zip_code }}
+
+                <br>
+
+                {{ order.phone }}
+
+            </p>
+
+            <a
+                href="/shop/"
+                class="btn btn-primary">
+
+                Continue Shopping
+
+            </a>
+
+            <a
+                href="/shop/my-orders/"
+                class="btn btn-success">
+
+                My Orders
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
